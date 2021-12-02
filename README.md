@@ -28,7 +28,8 @@ arc.get_point_cloud_data()
 
 ps.show()
 ```
-< img src="https://github.com/hy-son/Simufact_ARC_reader/blob/main/imgs/TOTDISP_example.PNG?raw=true">
+
+<img src="https://github.com/hy-son/Simufact_ARC_reader/blob/main/imgs/TOTDISP_example.PNG?raw=true" >
 
 
 ## Use
