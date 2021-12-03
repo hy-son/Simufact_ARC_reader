@@ -39,5 +39,11 @@ ps.show()
 4. Put all the available data to the point cloud with *get_point_cloud_data*
 5. Show the cloud point with *ps.show()*
 
+## Functions:
+- *Arc_reader(name="pointcloud")*: Create an object reading csv ARC files. The arguments "name" set the display name in polyscope. 
+- *load_csv("file.csv")*: Load the csv file in the *raw_data* variable.
+- *get_coordinate()*: Extract the coordinate from the *raw_data*
+- *get_point_cloud_data(display=True)*: Add features to the point of cloud. The *display* variable will define if the point cloud is show by default by ps.show().
+
 ## Limitation
-This reader is not an official one as is provided as is.
+This reader is not an official one and is provided as is.
