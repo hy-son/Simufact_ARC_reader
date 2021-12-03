@@ -10,10 +10,11 @@ ps.init()
 ps.set_up_dir("z_up")
 
 class Arc_reader():
-    def __init__(self):
+    def __init__(self, name="pointcloud"):
         self.raw_data = SimpleNamespace()
         self.data = SimpleNamespace()
         self.coordinate = np.empty([1,3])
+        self.name = name
 
         self.__SECTIONS_NAMES = ["Connectivity (nb, type, nb of nodes)", "Coordinates (nb)", "Post value (name, number)"]
 
@@ -67,9 +68,12 @@ class Arc_reader():
         data = np.squeeze(data)
         return data
 
-    def get_point_cloud_data(self):
-        """Create a point cloud with all the available data"""
-        ps.register_point_cloud("pointscloud", self.coordinate)
+    def get_point_cloud_data(self, display=True):
+        """Create a point cloud with all the available data.
+        Arg:
+            display: bool: define if the point of cloud should be displayed by default.
+                I recomand to set it to false if you have lot of point of cloud to display"""
+        ps.register_point_cloud(self.name, self.coordinate).set_enabled(display)
         to_avoid = ["Coordinates", "Connectivity"]
 
         for raw in dir(self.raw_data):
@@ -79,7 +83,7 @@ class Arc_reader():
                 # but not on the class private attribute
             else:
                 setattr(self.data, raw, self.clean_data(getattr(self.raw_data, raw).values[4:]))
-                ps.get_point_cloud("pointscloud").add_scalar_quantity(
+                ps.get_point_cloud(self.name).add_scalar_quantity(
                     getattr(self.raw_data, raw).name, getattr(self.data, raw), cmap="jet")
 
 class Content():
