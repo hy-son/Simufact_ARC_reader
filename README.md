@@ -15,7 +15,7 @@ from ARC_CSV import Arc_reader
 import polyscope as ps
 
 # Create an arc reader object
-arc = Arc_reader()
+arc = Arc_reader(name="pointcloud")
 
 # Read a csv dump
 arc.load_csv("examples/95428XstlXremeshedX_FV_part_13.csv")
@@ -24,7 +24,7 @@ arc.load_csv("examples/95428XstlXremeshedX_FV_part_13.csv")
 arc.get_coordinate()
 
 # Add at each point all extract data
-arc.get_point_cloud_data()
+arc.get_point_cloud_data(display=True)
 
 ps.show()
 ```
@@ -38,7 +38,6 @@ ps.show()
 3. Extract the cloud point with *get_coordinate*
 4. Put all the available data to the point cloud with *get_point_cloud_data*
 5. Show the cloud point with *ps.show()*
-
 
 ## Limitation
 This reader is not an official one as is provided as is.
