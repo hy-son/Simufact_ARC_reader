@@ -2,12 +2,19 @@ import csv
 from typing import Sequence
 import numpy as np
 from types import SimpleNamespace
-import polyscope as ps
 
-# Should be run only once
-# Set up direction
-ps.init()
-ps.set_up_dir("z_up")
+POLY_ACTIVATE = True
+try:
+    import polyscope as ps
+
+    # Should be run only once
+    # Set up direction
+    ps.init()
+    ps.set_up_dir("z_up")
+except:
+    print("POLYSCOPE IS NOT WORKING")
+    print("This is normal for colab")
+    POLY_ACTIVATE = False
 
 class Arc_reader():
     def __init__(self, name="pointcloud"):
@@ -73,7 +80,8 @@ class Arc_reader():
         Arg:
             display: bool: define if the point of cloud should be displayed by default.
                 I recomand to set it to false if you have lot of point of cloud to display"""
-        ps.register_point_cloud(self.name, self.coordinate).set_enabled(display)
+        if POLY_ACTIVATE:
+            ps.register_point_cloud(self.name, self.coordinate).set_enabled(display)
         to_avoid = ["Coordinates", "Connectivity"]
 
         for raw in dir(self.raw_data):
@@ -83,8 +91,9 @@ class Arc_reader():
                 # but not on the class private attribute
             else:
                 setattr(self.data, raw, self.clean_data(getattr(self.raw_data, raw).values[4:]))
-                ps.get_point_cloud(self.name).add_scalar_quantity(
-                    getattr(self.raw_data, raw).name, getattr(self.data, raw), cmap="jet")
+                if POLY_ACTIVATE:
+                    ps.get_point_cloud(self.name).add_scalar_quantity(
+                        getattr(self.raw_data, raw).name, getattr(self.data, raw), cmap="jet")
 
 class Content():
     def __init__(self, name=None):
