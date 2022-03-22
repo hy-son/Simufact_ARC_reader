@@ -113,7 +113,8 @@ class Arc_reader():
             display: bool: define if the point of cloud should be displayed by default.
                 I recomand to set it to false if you have lot of point of cloud to display"""
         if POLY_ACTIVATE:
-            ps.register_point_cloud(self.name, self.coordinate).set_enabled(display)
+            self.point_cloud = ps.register_point_cloud(self.name, self.coordinate)
+            self.point_cloud.set_enabled(display)
         to_avoid = ["Coordinates", "Connectivity"]
 
         for raw in dir(self.raw_data):
@@ -124,7 +125,7 @@ class Arc_reader():
             else:
                 setattr(self.data, raw, self.clean_data(getattr(self.raw_data, raw).values[4:]))
                 if POLY_ACTIVATE:
-                    ps.get_point_cloud(self.name).add_scalar_quantity(
+                    self.point_cloud.add_scalar_quantity(
                         getattr(self.raw_data, raw).name, getattr(self.data, raw), cmap="jet")
 
 class Content():
