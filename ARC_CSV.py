@@ -1,7 +1,8 @@
 import csv
 from typing import Sequence
 import numpy as np
-from types import SimpleNamespace, Union
+from types import SimpleNamespace
+from typing import Union
 from pathlib import Path
 
 POLY_ACTIVATE = True
