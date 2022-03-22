@@ -19,6 +19,14 @@ except:
 
 class Arc_reader():
     def __init__(self, name="pointcloud"):
+        """
+        Class reading the csv extract of an ARC file.
+        To use this class, create an object then use the load_csv function to load in raw_data all csv data.
+        Process the raw_data with get_coordinate and get_point_cloud_data to access them
+        from self.coordinate and self.data.
+        Arg
+        :param name: Name use on the polyscope visualisation
+        """
         self.raw_data = SimpleNamespace()
         self.data = SimpleNamespace()
         self.coordinate = np.empty([1,3])
@@ -76,7 +84,7 @@ class Arc_reader():
         elif "part" in file_name:
             return "part"
         elif "supports" in file_name:
-            return  "supports"
+            return "supports"
         else:
             return None
 
