@@ -1,7 +1,8 @@
 import csv
 from typing import Sequence
 import numpy as np
-from types import SimpleNamespace
+from types import SimpleNamespace, Union
+from pathlib import Path
 
 POLY_ACTIVATE = True
 try:
@@ -22,11 +23,17 @@ class Arc_reader():
         self.data = SimpleNamespace()
         self.coordinate = np.empty([1,3])
         self.name = name
+        self.name_file = ""
+        self.arc_type = ""
 
         self.__SECTIONS_NAMES = ["Connectivity (nb, type, nb of nodes)", "Coordinates (nb)", "Post value (name, number)"]
 
-    def load_csv(self, file: str):
+    def load_csv(self, file: Union[str, Path]):
         """Load ARC files csv values to raw_data"""
+        file = Path(file)
+        self.name_file = file.name
+        self.arc_type = self._get_arc_type(file.name)
+
         with open(file) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=';')
             last_attribute = None
@@ -55,6 +62,23 @@ class Arc_reader():
                 else:
                     # Add the data to their attribute
                     getattr(self.raw_data, last_attribute).add_values(row)
+
+    def _get_arc_type(self, file_name: Union[str, Path]) -> str:
+        """
+        Extract the type of the part. This can be a part, a supports or a baseplate.
+        :param file_name: name of the arc file containing the type of part
+        :return: str, type of file
+        """
+        file_name = str(file_name)
+
+        if "baseplate" in file_name:
+            return "baseplate"
+        elif "part" in file_name:
+            return "part"
+        elif "supports" in file_name:
+            return  "supports"
+        else:
+            return None
 
     def get_coordinate(self):
         """Extract the coordinate from the raw data and create a numpy array with them"""
