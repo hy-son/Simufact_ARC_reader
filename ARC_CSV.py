@@ -41,6 +41,7 @@ class Arc_reader():
         """Load ARC files csv values to raw_data"""
         file = Path(file)
         self.name_file = file.name
+        self.path_file = file
         self.arc_type = self._get_arc_type(file.name)
 
         with open(file) as csv_file:
