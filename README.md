@@ -26,6 +26,10 @@ arc.get_coordinate()
 # Add at each point all extract data
 arc.get_point_cloud_data(display=True)
 
+arc.load_meta_parameters(increment_id= 48, build_path=Path(r"examples\\Stages\\Build.xml"),
+                         increments_path=Path(r"examples\\_Results_\\Meta\\Increments.xml"))
+# Load the metaprameters of with the build and increments file of the 48th simulation step
+
 ps.show()
 ```
 
@@ -37,7 +41,16 @@ ps.show()
 2. Use the Arc_reader class to load it with *load_csv*
 3. Extract the cloud point with *get_coordinate*
 4. Put all the available data to the point cloud with *get_point_cloud_data*
-5. Show the cloud point with *ps.show()*
+5. You can load in metaparameters the printing parameters.
+   1. it will load `_Results_\Meta\Increments.xml` to provide:
+      1. the printing time of the arc file (s)
+      2. the duration of this printing/simulation step (s)
+   2. it will load `Stages\Build.xml` to load:
+      1. the laser power (W)
+      2. the laser speed (m/s)
+      3. the layer thickness (m)
+   3. Those data can be acceded with `arc.metaparameters`
+6. Show the cloud point with *ps.show()*
 
 ## Functions:
 - *Arc_reader(name="pointcloud")*: Create an object reading csv ARC files. The arguments "name" set the display name in polyscope. 

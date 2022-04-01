@@ -4,6 +4,8 @@ import numpy as np
 from types import SimpleNamespace
 from typing import Union
 from pathlib import Path
+import xmltodict
+import types
 
 POLY_ACTIVATE = True
 try:
@@ -34,6 +36,7 @@ class Arc_reader():
         self.name = name
         self.name_file = ""
         self.arc_type = ""
+        self.metaparameters = types.SimpleNamespace()
 
         self.__SECTIONS_NAMES = ["Connectivity (nb, type, nb of nodes)", "Coordinates (nb)", "Post value (name, number)"]
 
@@ -130,6 +133,42 @@ class Arc_reader():
                     self.point_cloud.add_scalar_quantity(
                         getattr(self.raw_data, raw).name, getattr(self.data, raw), cmap="jet")
 
+    def load_meta_parameters(self, increment_id: int, build_path: Path = None, increments_path: Path = None ):
+        """
+        Automaticaly load the xml files containing the build parameters and the layers times.
+        This function must be run AFTER load_csv
+        :arg
+            build_path: Where is the build.xml file. If None, default value will be created
+            increments_path: Where the increment.xml file is. If None, default value will be created
+            increment_id: Step of the simulation iteration (not equal to the name of the arc folder).
+        :return:
+        """
+        process_folder = Path(self.path_file).parents[2] # Extract the Process folder where are stored the information
+        process_step = int(Path(self.path_file).parents[0].name)
+        self.metaparameters.process_step = process_step
+
+        # Generate default values if needed:
+        if build_path is None:
+            build_path = process_folder / r"Stages\Build.xml"
+        if increments_path is None:
+            increments_path = process_folder / r"_Results_\Meta\Increments.xml"
+
+        # Load the build information with the main printing parameters
+        with open(build_path) as f:
+            build = xmltodict.parse(f.read())
+
+            self.metaparameters.speed_m_s = float(build["stageInfoFile"]["stage"]["stageType"]["standardParameter"]["speed"]["#text"])
+            self.metaparameters.layerThickness_m = float(build["stageInfoFile"]["stage"]["stageType"]["standardParameter"]["layerThickness"]["#text"])
+            self.metaparameters.power_W = float(build["stageInfoFile"]["stage"]["stageType"]["standardParameter"]["power"]["#text"])
+
+        # Load the time of each layers
+        with open( increments_path) as f:
+            incrememts = xmltodict.parse(f.read())
+            self.metaparameters.time_steps_s = float(incrememts['Increments']["Increment"][increment_id]["Time"])
+            self.metaparameters.time_steps_length_s = float(incrememts['Increments']["Increment"][increment_id]["TimeStepLengthUsed"])
+
+
+
 class Content():
     def __init__(self, name=None):
         self.values = []
@@ -149,3 +188,5 @@ class Content():
         """Add the information attribute to self"""
         for title, atr in zip(titles, data):
             setattr(self, title, atr)
+
+
