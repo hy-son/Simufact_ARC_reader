@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stageInfoFile productName="Simufact Additive" productVersion="2021">
+  <lastFileModification productVersion="2021.0.0.1623408251" date="2022-01-03T09:22:01" operatingSystem="x64 (Windows)" userName="Manuela"/>
+  <stage>
+    <viewName>Build</viewName>
+    <fileName>Build</fileName>
+    <stageType type="Build">
+      <comment></comment>
+      <inherentStrain strainType="Orthotropic" distributionType="Uniform" epsilonX="-0.008" epsilonY="-0.003" epsilonZ="-0.03"/>
+      <hatchingAngles>
+        <usedRotationDuringManufacturing>false</usedRotationDuringManufacturing>
+        <startAngle dimension="1" unit="1">0.0</startAngle>
+        <incrementalAngle dimension="1" unit="1">67.0</incrementalAngle>
+      </hatchingAngles>
+      <layerThickness dimension="5" unit="0">3.0e-05</layerThickness>
+      <hatchingStyle>-1</hatchingStyle>
+      <valueSource>0</valueSource>
+      <gravity>false</gravity>
+      <gravityDirection x="0" y="0" z="-9.81" dimension="0" unit="0"/>
+      <databaseName>BuildParameters</databaseName>
+      <standardParameter>
+        <power dimension="12" unit="0">200.0</power>
+        <efficiency dimension="26" unit="1">0.25</efficiency>
+        <speed dimension="7" unit="0">1.0</speed>
+        <beamWidth dimension="5" unit="2">0.1</beamWidth>
+        <layerThickness dimension="5" unit="0">3.0e-05</layerThickness>
+        <scanRateType>0</scanRateType>
+        <effectiveScanningRate dimension="48" unit="0">3.0e-09</effectiveScanningRate>
+        <recoaterTime dimension="9" unit="0">10.0</recoaterTime>
+        <exposureTimeType>0</exposureTimeType>
+        <exposureTime dimension="9" unit="0">5.0e-05</exposureTime>
+        <energyFractionType>0</energyFractionType>
+        <energyFraction dimension="26" unit="1">0.0</energyFraction>
+        <volumeExpansionFactorType>0</volumeExpansionFactorType>
+        <volumeExpansionFactorIdo dimension="-1" unit="0">0.6</volumeExpansionFactorIdo>
+        <volumeExpansionFactorX dimension="-1" unit="0">0.6</volumeExpansionFactorX>
+        <volumeExpansionFactorY dimension="-1" unit="0">0.6</volumeExpansionFactorY>
+        <volumeExpansionFactorZ dimension="-1" unit="0">0.6</volumeExpansionFactorZ>
+        <hatchingParameter>
+          <hatchingStyle>0</hatchingStyle>
+          <scanWidth dimension="5" unit="2">5.0</scanWidth>
+          <scanOverlap dimension="5" unit="2">0.0</scanOverlap>
+          <hatchSpacing dimension="5" unit="2">0.1</hatchSpacing>
+          <pauseTime dimension="9" unit="0">0.0</pauseTime>
+          <hatchDistanceType>0</hatchDistanceType>
+        </hatchingParameter>
+        <gravity>false</gravity>
+        <gravityDirection x="0" y="0" z="-9.81" dimension="0" unit="0"/>
+        <databaseName>BuildParameters</databaseName>
+        <comment></comment>
+      </standardParameter>
+      <postBuildParameter>
+        <terminationType>1</terminationType>
+        <terminationTime dimension="9" unit="2">1.0</terminationTime>
+        <terminationTemperature dimension="8" unit="1">50.0</terminationTemperature>
+        <fixationReleaseOrder>0,3,2,1</fixationReleaseOrder>
+        <coolingWithPowder>true</coolingWithPowder>
+        <fixationReleasedAtOnce>true</fixationReleasedAtOnce>
+        <databaseName>PostBuildParameters</databaseName>
+        <comment></comment>
+      </postBuildParameter>
+      <thermalParameter>
+        <powderTemperature dimension="8" unit="1">25.0</powderTemperature>
+        <chamberTemperature dimension="8" unit="1">50.0</chamberTemperature>
+        <initialTemperature dimension="8" unit="1">200.0</initialTemperature>
+        <considerBasePlatePreheating>false</considerBasePlatePreheating>
+        <bottomTemperature dimension="8" unit="1">200.0</bottomTemperature>
+        <preheatingTime dimension="9" unit="1">30.0</preheatingTime>
+        <databaseName>ThermalParameters</databaseName>
+        <comment></comment>
+      </thermalParameter>
+      <advancedThermalParameter>
+        <thermalParameterBuildStage>
+          <partSupport>
+            <emissivityType>Constant</emissivityType>
+            <emissivityValue dimension="-1" unit="0">0.85</emissivityValue>
+            <heatTransferCoefficient>
+              <TableOrConstant type="constant">
+                <UnitValue dimension="23" unit="0" Version="1">12.0</UnitValue>
+              </TableOrConstant>
+            </heatTransferCoefficient>
+          </partSupport>
+          <basePlate>
+            <emissivityType>Constant</emissivityType>
+            <emissivityValue dimension="-1" unit="0">0.6</emissivityValue>
+            <heatTransferCoefficient>
+              <TableOrConstant type="constant">
+                <UnitValue dimension="23" unit="0" Version="1">20.0</UnitValue>
+              </TableOrConstant>
+            </heatTransferCoefficient>
+            <contactHeatTransferCoefficient>
+              <TableOrConstant type="constant">
+                <UnitValue dimension="23" unit="0" Version="1">100.0</UnitValue>
+              </TableOrConstant>
+            </contactHeatTransferCoefficient>
+          </basePlate>
+        </thermalParameterBuildStage>
+        <thermalParameterPostBuild>
+          <partSupport>
+            <emissivityType>Constant</emissivityType>
+            <emissivityValue dimension="-1" unit="0">0.6</emissivityValue>
+            <heatTransferCoefficient>
+              <TableOrConstant type="constant">
+                <UnitValue dimension="23" unit="0" Version="1">20.0</UnitValue>
+              </TableOrConstant>
+            </heatTransferCoefficient>
+          </partSupport>
+          <basePlate>
+            <emissivityType>Constant</emissivityType>
+            <emissivityValue dimension="-1" unit="0">0.6</emissivityValue>
+            <heatTransferCoefficient>
+              <TableOrConstant type="constant">
+                <UnitValue dimension="23" unit="0" Version="1">20.0</UnitValue>
+              </TableOrConstant>
+            </heatTransferCoefficient>
+            <contactHeatTransferCoefficient>
+              <TableOrConstant type="constant">
+                <UnitValue dimension="23" unit="0" Version="1">100.0</UnitValue>
+              </TableOrConstant>
+            </contactHeatTransferCoefficient>
+          </basePlate>
+        </thermalParameterPostBuild>
+        <databaseName>AdvancedThermalParameters</databaseName>
+        <comment></comment>
+      </advancedThermalParameter>
+      <weldingParameter>
+        <beamWidth dimension="5" unit="0">0.00015</beamWidth>
+        <velocity dimension="7" unit="0">1.0</velocity>
+        <power dimension="12" unit="0">200.0</power>
+        <efficiency>0.5</efficiency>
+        <material></material>
+      </weldingParameter>
+    </stageType>
+  </stage>
+</stageInfoFile>
