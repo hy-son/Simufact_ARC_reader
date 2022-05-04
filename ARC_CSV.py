@@ -40,7 +40,7 @@ class Arc_reader():
 
         self.__SECTIONS_NAMES = ["Connectivity (nb, type, nb of nodes)", "Coordinates (nb)", "Post value (name, number)"]
 
-    def load_csv(self, file: Union[str, Path]):
+    def load_csv(self, file: Union[str, Path], attribute_to_load: list = None):
         """Load ARC files csv values to raw_data"""
         file = Path(file)
         self.name_file = file.name
@@ -74,7 +74,10 @@ class Arc_reader():
 
                 else:
                     # Add the data to their attribute
-                    getattr(self.raw_data, last_attribute).add_values(row)
+                    if attribute_to_load is None:
+                        getattr(self.raw_data, last_attribute).add_values(row)
+                    elif last_attribute in attribute_to_load:
+                        getattr(self.raw_data, last_attribute).add_values(row)
 
     def _get_arc_type(self, file_name: Union[str, Path]) -> str:
         """
@@ -102,7 +105,7 @@ class Arc_reader():
 
         for coor in self.raw_data.Coordinates.values:
             id = int(coor[0])
-            pos = np.array(coor[1:], dtype=float)
+            pos = np.array(coor[1:], dtype=np.float32)
             self.coordinate[id] = pos
 
     @staticmethod
@@ -117,9 +120,9 @@ class Arc_reader():
         Arg:
             display: bool: define if the point of cloud should be displayed by default.
                 I recomand to set it to false if you have lot of point of cloud to display"""
-        if POLY_ACTIVATE:
+        '''if POLY_ACTIVATE:
             self.point_cloud = ps.register_point_cloud(self.name, self.coordinate)
-            self.point_cloud.set_enabled(display)
+            self.point_cloud.set_enabled(display)'''
         to_avoid = ["Coordinates", "Connectivity"]
 
         for raw in dir(self.raw_data):
@@ -129,9 +132,9 @@ class Arc_reader():
                 # but not on the class private attribute
             else:
                 setattr(self.data, raw, self.clean_data(getattr(self.raw_data, raw).values[4:]))
-                if POLY_ACTIVATE:
+                '''if POLY_ACTIVATE:
                     self.point_cloud.add_scalar_quantity(
-                        getattr(self.raw_data, raw).name, getattr(self.data, raw), cmap="jet")
+                        getattr(self.raw_data, raw).name, getattr(self.data, raw), cmap="jet")'''
 
     def load_meta_parameters(self, increment_id: int, build_path: Path = None, increments_path: Path = None ):
         """
@@ -160,6 +163,7 @@ class Arc_reader():
             self.metaparameters.speed_m_s = float(build["stageInfoFile"]["stage"]["stageType"]["standardParameter"]["speed"]["#text"])
             self.metaparameters.layerThickness_m = float(build["stageInfoFile"]["stage"]["stageType"]["standardParameter"]["layerThickness"]["#text"])
             self.metaparameters.power_W = float(build["stageInfoFile"]["stage"]["stageType"]["standardParameter"]["power"]["#text"])
+            self.metaparameters.initialTemperature_C = float(build["stageInfoFile"]["stage"]["stageType"]["thermalParameter"]["initialTemperature"]["#text"])
 
         # Load the time of each layers
         with open( increments_path) as f:

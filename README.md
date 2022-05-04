@@ -20,6 +20,11 @@ arc = Arc_reader(name="pointcloud")
 # Read a csv dump
 arc.load_csv("examples/95428XstlXremeshedX_FV_part_13.csv")
 
+# Read a part of a csv dump
+arc.load_csv("examples/95428XstlXremeshedX_FV_part_13.csv",
+                attribute_to_load= ['Coordinates', 'TEMPTURE', 'XDIS', 'YDIS', 'ZDIS'])
+# Only the coordinates, tempture and x,y, z displacement are read from the file.
+
 # Extract the point cloud coordinate
 arc.get_coordinate()
 
