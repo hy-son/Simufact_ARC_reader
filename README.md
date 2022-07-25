@@ -13,6 +13,7 @@ This code is intended for people using Simufact 2021 and would like to import AR
 ```python
 from ARC_CSV import Arc_reader
 import polyscope as ps
+from pathlib import Path
 
 # Create an arc reader object
 arc = Arc_reader(name="pointcloud")
