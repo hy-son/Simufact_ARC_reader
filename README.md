@@ -34,7 +34,7 @@ arc.get_point_cloud_data(display=True)
 
 arc.load_meta_parameters(increment_id= 48, build_path=Path(r"examples\\Stages\\Build.xml"),
                          increments_path=Path(r"examples\\_Results_\\Meta\\Increments.xml"))
-# Load the metaprameters of with the build and increments file of the 48th simulation step
+# Load the metaparameters of with the build and increments file of the 48th simulation step
 
 ps.show()
 ```
