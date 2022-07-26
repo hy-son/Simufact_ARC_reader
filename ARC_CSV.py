@@ -7,7 +7,7 @@ from pathlib import Path
 import xmltodict
 import types
 
-POLY_ACTIVATE = False
+POLY_ACTIVATE = True
 try:
     import polyscope as ps
 
@@ -139,7 +139,7 @@ class Arc_reader():
     def add_id(self) -> None:
         """Add an ID features to all nodes, the ID is equal to the nodes positions in the nodes list"""
         if POLY_ACTIVATE:
-            self.point_cloud.add_scalar_quantity("id", np.arange(0, self.coordinate.shape[0]), cmap="jet")
+            self.ps_net.add_scalar_quantity("ID", np.arange(0, self.coordinate.shape[0]), enabled=True, cmap="jet")
         else:
             print("Polyscope is deactivated, so no id will be displayed")
 
@@ -150,14 +150,8 @@ class Arc_reader():
         data = np.squeeze(data)
         return data
 
-    def get_point_cloud_data(self, display=True) -> None:
-        """Create a point cloud with all the available data.
-        Arg:
-            display: bool: define if the point of cloud should be displayed by default.
-                I recomand to set it to false if you have lot of point of cloud to display"""
-        if POLY_ACTIVATE:
-            self.point_cloud = ps.register_point_cloud(self.name, self.coordinate)
-            self.point_cloud.set_enabled(display)
+    def get_point_cloud_data(self) -> None:
+        """Create a point cloud with all the available data."""
         to_avoid = ["Coordinates", "Connectivity"]
 
         for raw in dir(self.raw_data):
@@ -179,10 +173,7 @@ class Arc_reader():
 
             if process_this_loop:
                 setattr(self.data, raw, self.clean_data(getattr(self.raw_data, raw).values[4:]))
-                if POLY_ACTIVATE:
-                    # If we are displaying the data AND that this data was not filtered with "attribute_to_load"
-                    self.point_cloud.add_scalar_quantity(
-                        getattr(self.raw_data, raw).name, getattr(self.data, raw), cmap="jet")
+
 
     def load_meta_parameters(self, increment_id: int, build_path: Path = None, increments_path: Path = None) -> None:
         """
@@ -275,6 +266,35 @@ class Arc_reader():
         destination = int(destination)
         self.edge_index[0].append(source)
         self.edge_index[1].append(destination)
+
+    def display(self, edges_radius: float = 0.002):
+        """Generate a curve network representation of the data with polyscope
+        :param edges_radius: size of the edges
+        """
+        if not POLY_ACTIVATE:
+            raise("ERROR polyscope is deactivated")
+
+        # Define the graph
+        self.ps_net = ps.register_curve_network(self.name, self.coordinate, np.array(self.edge_index).T,
+                                                radius=edges_radius)
+
+        # Add id
+        self.add_id()
+
+        # Create vectors:
+        # Deformation vectors
+        if hasattr( self.data, "XDIS") and hasattr( self.data, "YDIS") and hasattr( self.data, "ZDIS"):
+            displacement_vectors = np.vstack((self.data.XDIS, self.data.YDIS, self.data.ZDIS)).T
+            self.ps_net.add_vector_quantity("Deformation vectors", displacement_vectors)
+
+        # Add all available scalar values
+        for data in dir(self.data):
+            if data[0:2] == "__":
+                pass
+            else:
+                self.ps_net.add_scalar_quantity(data, getattr(self.data, data), cmap="jet")
+
+
 
 
 class Content():
