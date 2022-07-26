@@ -1,5 +1,10 @@
 # Simufact_ARC_reader
 Python class to read csv created from ARC files of Simufact 2021.
+All results or a selections can extracted from the ARC csv files and then displayed. 
+The connectivity matrix is used to generate the graph linking all nodes.
+<img src="https://github.com/hy-son/Simufact_ARC_reader/blob/main/imgs/part_166_TEMPTURE.PNG?raw=true" >
+To be used, the ARC files must be transformed into CSV files using **ArcTool.exe**, available in:
+```installation folder /additive/2021/sfTools/sfArcTool/bin/ArcTool.exe```
 
 ## For who this code is?:
 This code is intended for people using Simufact 2021 and would like to import ARC results in python.
@@ -67,7 +72,7 @@ This code allow to see the deformation vectors of all nodes:
 - *load_csv("file.csv")*: Load the csv file in the *raw_data* variable.
 - *get_coordinate()*: Extract the coordinate from the *raw_data*
 - *get_point_cloud_data(display=True)*: Add features to the point of cloud. The *display* variable will define if the point cloud is show by default by ps.show().
-- *get_edge_index*: Generate the edges. This is using the connectivity matrix of Simufact, where each neighbours is made of 8 nodes.
+- *get_edge_index*: Generate the edges index. This is using the connectivity matrix of Simufact, where each neighbours is made of 8 nodes. The edges index can be acceded through the variable `self.edge_index`
 - *display*: Generate the polyscope visualisation object
 
 ## Limitation
