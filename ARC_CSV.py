@@ -135,6 +135,10 @@ class Arc_reader():
             neigh = np.array(coon[1:], dtype=np.int32)  # Extract the neighbors
             self.connectivity[id] = neigh
 
+    def add_id(self) -> None:
+        """Add an ID features to all nodes, the ID is equal to the nodes positions in the nodes list"""
+        self.point_cloud.add_scalar_quantity("id", np.arange(0, self.coordinate.shape[0]), cmap="jet")
+
     @staticmethod
     def clean_data(data) -> np.ndarray:
         """Clean data"""
@@ -168,7 +172,6 @@ class Arc_reader():
                 else:
                     # We do not want to process those data
                     process_this_loop = False
-
 
             if process_this_loop:
                 setattr(self.data, raw, self.clean_data(getattr(self.raw_data, raw).values[4:]))
@@ -229,7 +232,7 @@ class Arc_reader():
         if POLY_ACTIVATE:
             neighbors = self.connectivity[id]
             for n in neighbors:
-                categories[int(n) -1] = 1
+                categories[int(n) - 1] = 1
 
             print(f"{len(neighbors)} neighbors found : {neighbors}")
             self.point_cloud.add_scalar_quantity(
