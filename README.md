@@ -29,22 +29,22 @@ arc.get_coordinate()
 arc.get_connectivity()
 
 # Add at each point all extract data
-arc.get_point_cloud_data(display=True)
+arc.get_point_cloud_data()
 
 arc.load_meta_parameters(increment_id= 48, build_path=Path(r"examples\\Stages\\Build.xml"),
                          increments_path=Path(r"examples\\_Results_\\Meta\\Increments.xml"))
 # Load the metaparameters of with the build and increments file of the 48th simulation step
 
-# Ad an id field to every vertex
-arc.add_id()
+# Extract the edges
+arc.get_edge_index()
 
-# Look at the first neighbors set
-arc.neighbors_set(0)
+arc.display()
 ps.show()
 ```
-
-<img src="https://github.com/hy-son/Simufact_ARC_reader/blob/main/imgs/TOTDISP_example.PNG?raw=true" >
-
+Here is the output of this code, where we can see the temperature of each nodes.
+<img src="https://github.com/hy-son/Simufact_ARC_reader/blob/main/imgs/part_166_TEMPTURE.PNG?raw=true" >
+This code allow to see the deformation vectors of all nodes:
+<img src="https://github.com/hy-son/Simufact_ARC_reader/blob/main/imgs/part_166_Deformation_vectors.PNG?raw=true" >
 
 ## Use
 1. Transform the ARC file into a CSV file using ARCTool.exe (file in the Simufact directory) (The file with X_FV_part is the good one)
@@ -67,8 +67,8 @@ ps.show()
 - *load_csv("file.csv")*: Load the csv file in the *raw_data* variable.
 - *get_coordinate()*: Extract the coordinate from the *raw_data*
 - *get_point_cloud_data(display=True)*: Add features to the point of cloud. The *display* variable will define if the point cloud is show by default by ps.show().
-- *add_id()*: Add the ID of every node to the polyscopes viewer.
-- *neighbors_set(i)*: Get the ith neighbors set and set the neighbors value to 1 (other nodes are set to 0). 
+- *get_edge_index*: Generate the edges. This is using the connectivity matrix of Simufact, where each neighbours is made of 8 nodes.
+- *display*: Generate the polyscope visualisation object
 
 ## Limitation
 This reader is not an official one and is provided as is.
