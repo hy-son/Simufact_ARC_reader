@@ -7,7 +7,7 @@ from pathlib import Path
 import xmltodict
 import types
 
-POLY_ACTIVATE = True
+POLY_ACTIVATE = False
 try:
     import polyscope as ps
 
@@ -39,6 +39,7 @@ class Arc_reader():
         self.arc_type = ""
         self.metaparameters = types.SimpleNamespace()
         self.attribute_to_load = list()  # List of the parameters to load on display. Empty = all data will be displayed
+        self.edge_index = [[], []]  # Source and destination
 
         self.__SECTIONS_NAMES = ["Connectivity (nb, type, nb of nodes)", "Coordinates (nb)",
                                  "Post value (name, number)"]
@@ -137,7 +138,10 @@ class Arc_reader():
 
     def add_id(self) -> None:
         """Add an ID features to all nodes, the ID is equal to the nodes positions in the nodes list"""
-        self.point_cloud.add_scalar_quantity("id", np.arange(0, self.coordinate.shape[0]), cmap="jet")
+        if POLY_ACTIVATE:
+            self.point_cloud.add_scalar_quantity("id", np.arange(0, self.coordinate.shape[0]), cmap="jet")
+        else:
+            print("Polyscope is deactivated, so no id will be displayed")
 
     @staticmethod
     def clean_data(data) -> np.ndarray:
@@ -239,6 +243,38 @@ class Arc_reader():
                 f"neighbors_of_{id}", categories, cmap="jet")
         else:
             print("Polyscope not available!")
+
+    def get_edge_index(self) -> list:
+        """Compute the edges index of the part.
+        The used format will be the one of pytorch geometric, 2 lists, one with sources nodes qnd the other with
+        destination nodes."""
+
+        for neighbor in self.connectivity:
+            # A neighbor is a set of 8 nodes.
+            for source in neighbor:
+                for destination in neighbor:
+                    if source == destination:
+                        pass
+                    else:
+                        # -1 as our vertices id start at 0, but not the one in Simufact who start at 1
+                        self.__add_edge(source - 1, destination - 1)
+
+        # Remove duplicate
+        self.edge_index = np.unique(np.array(self.edge_index), axis=1).tolist()
+
+        return self.edge_index
+
+    def __add_edge(self, source: int, destination: int) -> None:
+        """
+        Add an edges to the self.edge_index
+        :param source: source nodes
+        :param destination: destination node
+        :return:
+        """
+        source = int(source)
+        destination = int(destination)
+        self.edge_index[0].append(source)
+        self.edge_index[1].append(destination)
 
 
 class Content():
