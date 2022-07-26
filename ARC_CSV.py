@@ -215,26 +215,6 @@ class Arc_reader():
             self.metaparameters.time_steps_length_s = float(
                 incrememts['Increments']["Increment"][increment_id]["TimeStepLengthUsed"])
 
-    def neighbors_set(self, id: int) -> None:
-        """
-        Will colors every nodes that is in the neighbors set id.
-        :param id: Neighbords id
-        :return:
-        """
-        id = int(id)
-        categories = np.zeros([int(self.raw_data.Coordinates.nb)])  # 0 Not connected, 1 neighboors, 2 origine
-
-        if POLY_ACTIVATE:
-            neighbors = self.connectivity[id]
-            for n in neighbors:
-                categories[int(n) - 1] = 1
-
-            print(f"{len(neighbors)} neighbors found : {neighbors}")
-            self.point_cloud.add_scalar_quantity(
-                f"neighbors_of_{id}", categories, cmap="jet")
-        else:
-            print("Polyscope not available!")
-
     def get_edge_index(self) -> list:
         """Compute the edges index of the part.
         The used format will be the one of pytorch geometric, 2 lists, one with sources nodes qnd the other with
