@@ -18,16 +18,15 @@ from pathlib import Path
 # Create an arc reader object
 arc = Arc_reader(name="pointcloud")
 
-# Read a csv dump
-arc.load_csv("examples/95428XstlXremeshedX_FV_part_13.csv")
-
 # Read a part of a csv dump
-arc.load_csv("examples/95428XstlXremeshedX_FV_part_13.csv",
-                attribute_to_load= ['Coordinates', 'TEMPTURE', 'XDIS', 'YDIS', 'ZDIS'])
+arc.load_csv(r"examples/_Results_/00166/Process_FV_part_166.csv",
+                attribute_to_load= ['Coordinates', 'TEMPTURE', 'XDIS', 'YDIS', 'ZDIS']
+             )
 # Only the coordinates, tempture and x,y, z displacement are read from the file.
 
 # Extract the point cloud coordinate
 arc.get_coordinate()
+arc.get_connectivity()
 
 # Add at each point all extract data
 arc.get_point_cloud_data(display=True)
@@ -36,6 +35,11 @@ arc.load_meta_parameters(increment_id= 48, build_path=Path(r"examples\\Stages\\B
                          increments_path=Path(r"examples\\_Results_\\Meta\\Increments.xml"))
 # Load the metaparameters of with the build and increments file of the 48th simulation step
 
+# Ad an id field to every vertex
+arc.add_id()
+
+# Look at the first neighbors set
+arc.neighbors_set(0)
 ps.show()
 ```
 
