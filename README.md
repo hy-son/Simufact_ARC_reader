@@ -63,6 +63,8 @@ ps.show()
 - *load_csv("file.csv")*: Load the csv file in the *raw_data* variable.
 - *get_coordinate()*: Extract the coordinate from the *raw_data*
 - *get_point_cloud_data(display=True)*: Add features to the point of cloud. The *display* variable will define if the point cloud is show by default by ps.show().
+- *add_id()*: Add the ID of every node to the polyscopes viewer.
+- *neighbors_set(i)*: Get the ith neighbors set and set the neighbors value to 1 (other nodes are set to 0). 
 
 ## Limitation
 This reader is not an official one and is provided as is.
