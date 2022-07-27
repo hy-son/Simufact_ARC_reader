@@ -14,7 +14,7 @@ This code is intended for people using Simufact 2021 and would like to import AR
 2. Install the requirement with `pip install -r requirements.txt`
 3. Import the Arc_reader class in your code with `from ARC_CSV import Arc_reader`
 
-## Example
+## Example 1: Read a csv file
 ```python
 from ARC_CSV import Arc_reader
 import polyscope as ps
@@ -51,6 +51,57 @@ Here is the output of this code, where we can see the temperature of each nodes.
 This code allow to see the deformation vectors of all nodes:
 <img src="https://github.com/hy-son/Simufact_ARC_reader/blob/main/imgs/part_166_Deformation_vectors.PNG?raw=true" >
 
+## Example 2 : Read two csv files: Coarse part and supports
+This project is capable of dealing with Simufact coarse voxels without any modification.
+```python
+from ARC_CSV import Arc_reader
+import polyscope as ps
+from pathlib import Path
+
+# Extract the part
+# Create an arc reader object
+part = Arc_reader(name="Part")
+# Read a part of a csv dump
+part.load_csv(r"example_coarse/_Results_/00354/Thermomechanical-Simu_FV_part_354.csv" )
+# Extract the point cloud coordinate
+part.get_coordinate()
+part.get_connectivity()
+# Add at each point all extract data
+part.get_point_cloud_data()
+part.load_meta_parameters(increment_id=104, build_path=Path(r"example_coarse\\Stages\\Build.xml"),
+                         increments_path=Path(r"example_coarse\\_Results_\\Meta\\Increments.xml"))
+# Load the metaparameters of with the build and increments file of the 104th simulation step
+# Extract the edges
+part.get_edge_index()
+part.display()
+
+#Extract the Supports
+# Create an arc reader object
+supports = Arc_reader(name="Supports")
+# Read a part of a csv dump
+supports.load_csv(r"example_coarse/_Results_/00354/Thermomechanical-Simu_FV_supports_354.csv" )
+# Extract the point cloud coordinate
+supports.get_coordinate()
+supports.get_connectivity()
+# Add at each point all extract data
+supports.get_point_cloud_data()
+supports.load_meta_parameters(increment_id=104, build_path=Path(r"example_coarse\\Stages\\Build.xml"),
+                         increments_path=Path(r"example_coarse\\_Results_\\Meta\\Increments.xml"))
+# Extract the edges
+supports.get_edge_index()
+supports.display()
+
+# Display everything
+ps.show() 
+```
+Here is the output of this code, where we can see the part and the supports in the same display.
+<img src="https://github.com/hy-son/Simufact_ARC_reader/blob/main/imgs/Read_thermomecha_simulation.PNG?raw=true" >
+We can compare what is read to Simufact results, the only difference is that our results are using meter instead of mm.
+Here is the same point results in Simufact, the total displacement (TOTDISP) is 0.14mm on Simufact and 0.00014m with our code.
+<img src="https://github.com/hy-son/Simufact_ARC_reader/blob/main/imgs/Simufact_thermomecha_simulation.PNG?raw=true" >
+
+Note: There is no edges between the supports and parts. Only nodes at the same positions.
+
 ## Use
 1. Transform the ARC file into a CSV file using ARCTool.exe (file in the Simufact directory) (The file with X_FV_part is the good one)
 2. Use the Arc_reader class to load it with *load_csv*
@@ -74,6 +125,15 @@ This code allow to see the deformation vectors of all nodes:
 - *get_point_cloud_data(display=True)*: Add features to the point of cloud. The *display* variable will define if the point cloud is show by default by ps.show().
 - *get_edge_index*: Generate the edges index. This is using the connectivity matrix of Simufact, where each neighbours is made of 8 nodes. The edges index can be acceded through the variable `self.edge_index`
 - *display*: Generate the polyscope visualisation object
+
+## Extract Simulation files for this script:
+1. Transform the desired ARC files into CSV, for this Simufact have a tool:
+   1. Go to the Simufact install folder, then *sfTools*, then *sfArcTool/bin* with a command line interface (C:\Program Files\simufact\additive\2021\sfTools\sfArcTool\bin)
+   2. Use *ArcToolCmd.exe* to convert ARC file to csv: ```ArcToolCmd.exe FileIn="C:\my.arc" FileOut="C:\my.csv" Format=4```
+   3. Copy those CSV in a folder ```simulation_folder/_Results_/n_layers/*.csv```
+2. Extract the file *meta.xml* from ```simulation_folder/_Results_/Meta/Meta.xml.gz``` to ```simulation_folder/_Results_/Meta/Meta.xml```
+3. Copy *Meta.xml* from ```simulation_folder/Meta/Meta.xml```
+
 
 ## Limitation
 This reader is not an official one and is provided as is.
