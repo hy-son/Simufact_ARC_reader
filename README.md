@@ -10,13 +10,27 @@ To be used, the ARC files must be transformed into CSV files using **ArcTool.exe
 This code is intended for people using Simufact 2021 and would like to import ARC results in python.
 
 ## Installation:
-1. Copy `ARC_CSV.py` in your project
+### Pip
+Note: The files examples are not usable when this package is installed. If you want to use the files example you will have to dowload them from the github repository.
+
+```pip install git+https://github.com/lerouxl/Simufact_ARC_reader.git@main```
+
+### From sources
+1. Clone this project: ```git clone https://github.com/lerouxl/Simufact_ARC_reader.git```
 2. Install the requirement with `pip install -r requirements.txt`
 3. Import the Arc_reader class in your code with `from ARC_CSV import Arc_reader`
 
+___
+
+If you installed from pip, import Arc_reader with:
+ ```from simufact_arc_reader import Arc_reader```
+
+The following examples considere your have clone this repository and you are in the Simufact_arc_reader root folder.
+
 ## Example 1: Read a csv file
+
 ```python
-from ARC_CSV import Arc_reader
+from simufact_arc_reader.ARC_CSV import Arc_reader
 import polyscope as ps
 from pathlib import Path
 
@@ -24,7 +38,7 @@ from pathlib import Path
 arc = Arc_reader(name="pointcloud")
 
 # Read a part of a csv dump
-arc.load_csv(r"examples/_Results_/00166/Process_FV_part_166.csv",
+arc.load_csv(r"simufact_arc_reader/examples/_Results_/00166/Process_FV_part_166.csv",
                 attribute_to_load= ['Coordinates', 'TEMPTURE', 'XDIS', 'YDIS', 'ZDIS']
              )
 # Only the coordinates, tempture and x,y, z displacement are read from the file.
@@ -36,8 +50,8 @@ arc.get_connectivity()
 # Add at each point all extract data
 arc.get_point_cloud_data()
 
-arc.load_meta_parameters(increment_id= 48, build_path=Path(r"examples\\Stages\\Build.xml"),
-                         increments_path=Path(r"examples\\_Results_\\Meta\\Increments.xml"))
+arc.load_meta_parameters(increment_id= 48, build_path=Path(r"simufact_arc_reader\\examples\\Stages\\Build.xml"),
+                         increments_path=Path(r"simufact_arc_reader\\examples\\_Results_\\Meta\\Increments.xml"))
 # Load the metaparameters of with the build and increments file of the 48th simulation step
 
 # Extract the edges
@@ -62,14 +76,14 @@ from pathlib import Path
 # Create an arc reader object
 part = Arc_reader(name="Part")
 # Read a part of a csv dump
-part.load_csv(r"example_coarse/_Results_/00354/Thermomechanical-Simu_FV_part_354.csv" )
+part.load_csv(r"simufact_arc_reader/example_coarse/_Results_/00354/Thermomechanical-Simu_FV_part_354.csv" )
 # Extract the point cloud coordinate
 part.get_coordinate()
 part.get_connectivity()
 # Add at each point all extract data
 part.get_point_cloud_data()
-part.load_meta_parameters(increment_id=104, build_path=Path(r"example_coarse\\Stages\\Build.xml"),
-                         increments_path=Path(r"example_coarse\\_Results_\\Meta\\Increments.xml"))
+part.load_meta_parameters(increment_id=104, build_path=Path(r"simufact_arc_reader\\example_coarse\\Stages\\Build.xml"),
+                         increments_path=Path(r"simufact_arc_reader\\example_coarse\\_Results_\\Meta\\Increments.xml"))
 # Load the metaparameters of with the build and increments file of the 104th simulation step
 # Extract the edges
 part.get_edge_index()
@@ -79,14 +93,14 @@ part.display()
 # Create an arc reader object
 supports = Arc_reader(name="Supports")
 # Read a part of a csv dump
-supports.load_csv(r"example_coarse/_Results_/00354/Thermomechanical-Simu_FV_supports_354.csv" )
+supports.load_csv(r"simufact_arc_reader/example_coarse/_Results_/00354/Thermomechanical-Simu_FV_supports_354.csv" )
 # Extract the point cloud coordinate
 supports.get_coordinate()
 supports.get_connectivity()
 # Add at each point all extract data
 supports.get_point_cloud_data()
-supports.load_meta_parameters(increment_id=104, build_path=Path(r"example_coarse\\Stages\\Build.xml"),
-                         increments_path=Path(r"example_coarse\\_Results_\\Meta\\Increments.xml"))
+supports.load_meta_parameters(increment_id=104, build_path=Path(r"simufact_arc_reader\\example_coarse\\Stages\\Build.xml"),
+                         increments_path=Path(r"simufact_arc_reader\\example_coarse\\_Results_\\Meta\\Increments.xml"))
 # Extract the edges
 supports.get_edge_index()
 supports.display()
