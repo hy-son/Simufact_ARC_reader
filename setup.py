@@ -19,4 +19,5 @@ setuptools.setup(
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",  
         "Operating System :: OS Independent",
     ),
+    install_requires=['numpy>=1.2.0','polyscope>=1.2', 'xmltodict>=0.13.0']
 )
