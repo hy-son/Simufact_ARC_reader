@@ -1,12 +1,12 @@
 import setuptools
-from simufact_arc_reader import VERSION
+from simufact_arc_reader import __version__
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="Simufact_arc_reader",
-    version=VERSION,
+    version=__version__,
     author="Léopold Le Roux",
     author_email="",
     description="A python reader for Simufact ARC file",
