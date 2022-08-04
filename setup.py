@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="SIMUFACT_ARC_READER",
+    name="Simufact_arc_reader",
     version="1.0.0",
     author="Léopold Le Roux",
     author_email="",
