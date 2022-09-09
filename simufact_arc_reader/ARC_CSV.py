@@ -235,6 +235,15 @@ class Arc_reader():
 
         return self.edge_index
 
+    def add_edge(self, source: int, destination: int) -> None:
+        """
+        Add an edges to the self.edge_index
+        :param source: source nodes
+        :param destination: destination node
+        :return:
+        """
+        self.__add_edge(source, destination)
+
     def __add_edge(self, source: int, destination: int) -> None:
         """
         Add an edges to the self.edge_index
