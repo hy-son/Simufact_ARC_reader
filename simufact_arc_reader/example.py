@@ -13,7 +13,7 @@ arc.load_csv(r"examples/_Results_/00166/Process_FV_part_166.csv")
 arc.get_coordinate()
 
 # Add at each point all extract data
-arc.get_point_cloud_data(display=True)
+arc.get_point_cloud_data()
 # If the arc.csv file is still in the Simufact folder, the printing parameters can be loaded using load_meta_parameters
 # It will go in the _Results_ and Stages folder, loader Build.xml and Increments.xml to provide:
 # - laser speed
@@ -25,5 +25,7 @@ arc.load_meta_parameters(increment_id=47)
 print(f"Laser power used is {arc.metaparameters.power_W}")
 print(f"Laser speed used is {arc.metaparameters.speed_m_s}")
 print(f"Layer thickness used is {arc.metaparameters.layerThickness_m}")
+print(f"Subprocess name is {arc.metaparameters.subProcessName}")
 
+arc.display()
 ps.show()
