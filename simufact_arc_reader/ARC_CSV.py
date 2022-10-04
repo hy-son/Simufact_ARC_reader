@@ -214,6 +214,8 @@ class Arc_reader():
             self.metaparameters.time_steps_s = float(incrememts['Increments']["Increment"][increment_id]["Time"])
             self.metaparameters.time_steps_length_s = float(
                 incrememts['Increments']["Increment"][increment_id]["TimeStepLengthUsed"])
+            self.metaparameters.subProcessName = str(
+                incrememts['Increments']["Increment"][increment_id]["SubProcessName"])
 
     def get_edge_index(self) -> list:
         """Compute the edges index of the part.
