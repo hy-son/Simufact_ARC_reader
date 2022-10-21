@@ -6,6 +6,8 @@ from typing import Union
 from pathlib import Path
 import xmltodict
 import types
+import gzip
+import shutil
 
 POLY_ACTIVATE = True
 try:
@@ -209,6 +211,10 @@ class Arc_reader():
                 build["stageInfoFile"]["stage"]["stageType"]["thermalParameter"]["initialTemperature"]["#text"])
 
         # Load the time of each layers
+        if not increments_path.exists():
+            # If the gz file was not unzip, unzip it
+            self.unzip_file( increments_path.parent / (increments_path.name + ".gz"), increments_path)
+
         with open(increments_path) as f:
             incrememts = xmltodict.parse(f.read())
             self.metaparameters.time_steps_s = float(incrememts['Increments']["Increment"][increment_id]["Time"])
@@ -216,6 +222,16 @@ class Arc_reader():
                 incrememts['Increments']["Increment"][increment_id]["TimeStepLengthUsed"])
             self.metaparameters.subProcessName = str(
                 incrememts['Increments']["Increment"][increment_id]["SubProcessName"])
+
+    def unzip_file(self, file_in: Path, file_out: Path) -> None:
+        """Unzip a file.
+
+        Unzip a file and save it in the save folder.
+
+        """
+        with gzip.open(file_in, "rb") as f_in:
+            with open(file_out, 'wb') as f_out:
+                shutil.copyfileobj(f_in, f_out)
 
     def get_edge_index(self) -> list:
         """Compute the edges index of the part.
