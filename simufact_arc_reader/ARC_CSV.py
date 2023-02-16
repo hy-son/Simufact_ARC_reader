@@ -193,9 +193,9 @@ class Arc_reader():
 
         # Generate default values if needed:
         if build_path is None:
-            build_path = process_folder / r"Stages\Build.xml"
+            build_path = process_folder / r"Stages" / "Build.xml"
         if increments_path is None:
-            increments_path = process_folder / r"_Results_\Meta\Increments.xml"
+            increments_path = process_folder / r"_Results_" / "Meta" / "Increments.xml"
 
         # Load the build information with the main printing parameters
         with open(build_path) as f:
