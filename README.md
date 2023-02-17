@@ -151,3 +151,25 @@ Note: There is no edges between the supports and parts. Only nodes at the same p
 
 ## Limitation
 This reader is not an official one and is provided as is.
+
+## Installation errors:
+### Cannot set swap interval without a current OpenGL or OpenGL ES context
+
+If the installation process raise the following error:
+```bash 
+× python setup.py develop did not run successfully.
+│ exit code: -11
+╰─> [2 lines of output]
+    GLFW emitted error: GLX: Failed to create context: GLXBadFBConfig
+    GLFW emitted error: Cannot set swap interval without a current OpenGL or OpenGL ES context
+    [end of output]
+```
+This error is due to polyscope failing to install, this can be solve by cloning this repository, removing polyscope dependancy in `setup.py` line 22 and installing it:
+```bash
+git clone https://github.com/lerouxl/Simufact_ARC_reader.git
+cd Simufact_ARC_reader 
+nano setup.py
+pip install -e .
+```
+
+The line 22 of `setup.py` must now be: `install_requires=['numpy>=1.2.0','xmltodict>=0.12.0']`
