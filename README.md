@@ -173,3 +173,5 @@ pip install -e .
 ```
 
 The line 22 of `setup.py` must now be: `install_requires=['numpy>=1.2.0','xmltodict>=0.12.0']`
+
+Note: This will deactivate all visualisation with polyscope but allow you to load and process ARC files.
